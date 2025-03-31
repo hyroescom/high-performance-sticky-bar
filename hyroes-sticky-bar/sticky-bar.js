@@ -14,6 +14,7 @@
                 'background-color': HyroesStickyBarData.bgColor,
                 'color': '#fff',
                 'padding': '10px',
+                'position': 'relative',
                 'display': 'flex',
                 'align-items': 'center',
                 'justify-content': 'center',
@@ -22,14 +23,18 @@
             
             // Add text and close button container
             var $content = $('<div></div>').css({
-                'flex': '1',
-                'text-align': 'center'
+                'width': '100%',
+                'text-align': 'center',
+                'margin': '0 auto'
             }).text(HyroesStickyBarData.barText);
             
             var $closeButton = $('<span></span>').text('×').css({
                 'cursor': 'pointer',
                 'font-size': '1.25em',
-                'margin-left': '10px'
+                'position': 'absolute',
+                'right': '15px',
+                'top': '50%', 
+                'transform': 'translateY(-50%)'
             });
             
             $closeButton.on('click', function() {

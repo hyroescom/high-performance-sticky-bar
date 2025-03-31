@@ -113,11 +113,11 @@ function hyroes_sticky_bar_enqueue_scripts() {
 }
 add_action('wp_enqueue_scripts', 'hyroes_sticky_bar_enqueue_scripts');
 
-// Output sticky bar container before main content
+// Output sticky bar container as first div in header
 function hyroes_sticky_bar_display() {
     $settings = get_option('hyroes_sticky_bar_settings');
     if (!empty($settings['enable_bar'])) {
         echo '<div id="hyroes-sticky-bar" style="display:none;"></div>';
     }
 }
-add_action('wp_body_open', 'hyroes_sticky_bar_display', 0);
+add_action('wp_head', 'hyroes_sticky_bar_display', 0);
