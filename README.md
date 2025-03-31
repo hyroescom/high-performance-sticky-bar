@@ -8,7 +8,8 @@ A lightweight, high-performance WordPress plugin that adds a customizable sticky
 - **Customizable Text**: Set your own message to display
 - **Color Picker**: Choose any background color with the built-in WordPress color picker
 - **Cookie Integration**: Bar stays hidden for visitors who close it
-- **Configurable Duration**: Set how many days the bar stays hidden after being closed
+- **Configurable Duration**: Set how many hours the bar stays hidden after being closed
+- **Content-Friendly**: Properly positioned to avoid covering your website content
 - **Lightweight**: Minimal impact on page load times and performance
 - **Mobile-Friendly**: Fully responsive design that works on all devices
 
@@ -23,7 +24,7 @@ A lightweight, high-performance WordPress plugin that adds a customizable sticky
 1. Navigate to Tools → Sticky Bar in your WordPress admin dashboard
 2. Enter the text you want to display in the sticky bar
 3. Select a background color using the color picker
-4. Set the number of days the bar should stay hidden after a visitor closes it
+4. Set the number of hours the bar should stay hidden after a visitor closes it
 5. Check "Enable Sticky Bar" to activate
 6. Save your settings
 
@@ -31,9 +32,10 @@ A lightweight, high-performance WordPress plugin that adds a customizable sticky
 
 The sticky bar appears at the top of your website as the first element in the header. It includes:
 
+- Proper positioning that doesn't overlap with your header content
 - Centered text for better readability
 - A close button that remembers user preferences via cookies
-- Smooth CSS transitions for a polished user experience
+- Smooth CSS transitions for a polished, professional user experience
 - Optimized JavaScript for high performance
 
 ## Requirements

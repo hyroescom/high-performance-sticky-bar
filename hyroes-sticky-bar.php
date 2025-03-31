@@ -20,7 +20,7 @@ function hyroes_sticky_bar_register_settings() {
             'bar_text'   => 'Welcome to our site!',
             'bar_bgcolor'=> '#333333',
             'enable_bar' => 0,
-            'cookie_days' => 7
+            'cookie_hours' => 24
         ));
     }
 }
@@ -58,7 +58,7 @@ function hyroes_sticky_bar_options_page() {
         'bar_text' => 'Welcome to our site!',
         'bar_bgcolor' => '#333333',
         'enable_bar' => 0,
-        'cookie_days' => 7
+        'cookie_hours' => 24
     );
     $settings = get_option('hyroes_sticky_bar_settings', $defaults);
 
@@ -67,7 +67,7 @@ function hyroes_sticky_bar_options_page() {
         $settings['bar_text']   = sanitize_text_field($_POST['bar_text']);
         $settings['bar_bgcolor']= sanitize_hex_color($_POST['bar_bgcolor']);
         $settings['enable_bar'] = isset($_POST['enable_bar']) ? 1 : 0;
-        $settings['cookie_days'] = intval($_POST['cookie_days']);
+        $settings['cookie_hours'] = intval($_POST['cookie_hours']);
         update_option('hyroes_sticky_bar_settings', $settings);
         echo '<div class="updated"><p>Sticky Bar settings saved.</p></div>';
     }
@@ -93,9 +93,9 @@ function hyroes_sticky_bar_options_page() {
                     <td><input type="text" name="bar_bgcolor" value="<?php echo esc_attr($settings['bar_bgcolor']); ?>" class="color-picker" /></td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="cookie_days">Hide Duration (Days)</label></th>
-                    <td><input type="number" min="1" max="365" name="cookie_days" value="<?php echo esc_attr($settings['cookie_days']); ?>" class="small-text" />
-                    <span class="description">Number of days the bar stays hidden after a visitor closes it</span></td>
+                    <th scope="row"><label for="cookie_hours">Hide Duration (Hours)</label></th>
+                    <td><input type="number" min="1" max="8760" name="cookie_hours" value="<?php echo esc_attr($settings['cookie_hours']); ?>" class="small-text" />
+                    <span class="description">Number of hours the bar stays hidden after a visitor closes it</span></td>
                 </tr>
                 <tr>
                     <th scope="row">Enable Sticky Bar</th>
@@ -117,7 +117,7 @@ function hyroes_sticky_bar_enqueue_scripts() {
         'bar_text' => 'Welcome to our site!',
         'bar_bgcolor' => '#333333',
         'enable_bar' => 0,
-        'cookie_days' => 7
+        'cookie_hours' => 24
     );
     $settings = get_option('hyroes_sticky_bar_settings', $defaults);
 
@@ -133,17 +133,17 @@ function hyroes_sticky_bar_enqueue_scripts() {
         wp_localize_script('hyroes-sticky-bar-js', 'HyroesStickyBarData', array(
             'barText' => $settings['bar_text'],
             'bgColor' => $settings['bar_bgcolor'],
-            'cookieDays' => intval($settings['cookie_days'])
+            'cookieHours' => intval($settings['cookie_hours'])
         ));
     }
 }
 add_action('wp_enqueue_scripts', 'hyroes_sticky_bar_enqueue_scripts');
 
-// Output sticky bar container as first div in header
+// Output sticky bar container before header
 function hyroes_sticky_bar_display() {
     $settings = get_option('hyroes_sticky_bar_settings');
     if (!empty($settings['enable_bar'])) {
         echo '<div id="hyroes-sticky-bar" style="display:none;"></div>';
     }
 }
-add_action('wp_head', 'hyroes_sticky_bar_display', 0);
+add_action('wp_body_open', 'hyroes_sticky_bar_display', -999);

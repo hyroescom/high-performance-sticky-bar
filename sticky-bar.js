@@ -12,7 +12,7 @@
                 'position': 'fixed',
                 'top': '0',
                 'left': '0',
-                'right': '0',
+                'right': '0', 
                 'background-color': HyroesStickyBarData.bgColor,
                 'color': '#fff',
                 'padding': '10px',
@@ -22,7 +22,13 @@
                 'z-index': '9999',
                 'opacity': '0',
                 'transform': 'translateY(-100%)',
-                'transition': 'opacity 0.3s ease, transform 0.3s ease'
+                'transition': 'opacity 0.3s ease, transform 0.3s ease',
+                'box-sizing': 'border-box'
+            });
+            
+            // Add space for the sticky bar to the body to prevent content from being hidden
+            $('body').css({
+                'padding-top': '40px' // Ensure content below isn't covered
             });
             
             // Create content first before showing for better performance
@@ -51,7 +57,7 @@
                 });
                 
                 // Set cookie with expiration days from settings
-                setCookie(cookieName, 'true', HyroesStickyBarData.cookieDays);
+                setCookie(cookieName, 'true', 0, HyroesStickyBarData.cookieHours);
                 
                 // Remove after animation completes
                 setTimeout(function() {
@@ -72,13 +78,22 @@
         }
         
         // Helper function to set a cookie with expiration
-        function setCookie(name, value, days) {
+        function setCookie(name, value, days, hours) {
             var expires = '';
-            if (days) {
-                var date = new Date();
+            var date = new Date();
+            
+            // Calculate expiration time
+            if (days && days > 0) {
                 date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                expires = '; expires=' + date.toUTCString();
+            } else if (hours && hours > 0) {
+                date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
+            } else {
+                // Default: 1 day if neither specified
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
             }
+            
+            expires = '; expires=' + date.toUTCString();
+            
             document.cookie = name + '=' + (value || '') + expires + '; path=/';
         }
         
