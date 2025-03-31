@@ -139,11 +139,13 @@ function hyroes_sticky_bar_enqueue_scripts() {
 }
 add_action('wp_enqueue_scripts', 'hyroes_sticky_bar_enqueue_scripts');
 
-// Output sticky bar container before header
+// Output sticky bar container using wp_footer for maximum compatibility
 function hyroes_sticky_bar_display() {
     $settings = get_option('hyroes_sticky_bar_settings');
     if (!empty($settings['enable_bar'])) {
-        echo '<div id="hyroes-sticky-bar" style="display:none;"></div>';
+        echo '<div id="hyroes-sticky-bar-wrapper" style="position:fixed; top:0; left:0; right:0; z-index:999999; pointer-events:none;">';
+        echo '<div id="hyroes-sticky-bar" style="display:none; pointer-events:auto;"></div>';
+        echo '</div>';
     }
 }
-add_action('wp_body_open', 'hyroes_sticky_bar_display', -999);
+add_action('wp_footer', 'hyroes_sticky_bar_display', 999);
