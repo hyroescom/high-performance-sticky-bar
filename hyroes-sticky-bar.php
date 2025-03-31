@@ -3,7 +3,7 @@
 Plugin Name: Lightweight High Performance Sticky Bar
 Description: Adds a customizable sticky notification bar to the top of your website that can be closed by visitors, with their preference stored in cookies.
 Version: 1.4
-Author: Alex Godlewski, Hyroes.com
+Author: Hyroes.com
 Author URI: https://hyroes.com
 Text Domain: hyroes-sticky-bar
 Domain Path: /languages
@@ -19,9 +19,27 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+/**
+ * Sanitize plugin settings
+ *
+ * @param array $input The raw input from the settings form.
+ * @return array Sanitized settings array.
+ */
+function hyroes_sticky_bar_sanitize_settings($input) {
+    $sanitized_input = array();
+    
+    $sanitized_input['bar_text'] = isset($input['bar_text']) ? sanitize_text_field($input['bar_text']) : '';
+    $sanitized_input['bar_bgcolor'] = isset($input['bar_bgcolor']) ? sanitize_hex_color($input['bar_bgcolor']) : '#333333';
+    $sanitized_input['enable_bar'] = isset($input['enable_bar']) ? 1 : 0;
+    $sanitized_input['cookie_hours'] = isset($input['cookie_hours']) ? 
+        intval($input['cookie_hours']) : 24;
+    
+    return $sanitized_input;
+}
+
 // Register settings + store defaults once
 function hyroes_sticky_bar_register_settings() {
-    register_setting('hyroes_sticky_bar_options', 'hyroes_sticky_bar_settings');
+    register_setting('hyroes_sticky_bar_options', 'hyroes_sticky_bar_settings', 'hyroes_sticky_bar_sanitize_settings');
     // Ensure default options
     $existing = get_option('hyroes_sticky_bar_settings');
     if (!$existing) {

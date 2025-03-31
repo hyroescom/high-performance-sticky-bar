@@ -2,7 +2,7 @@
 Contributors: hyroescom
 Tags: sticky bar, notification bar, announcement bar, lightweight, cookie, customizable
 Requires at least: 5.0
-Tested up to: 6.4
+Tested up to: 6.7
 Stable tag: 1.4
 Requires PHP: 7.0
 License: GPLv2 or later
