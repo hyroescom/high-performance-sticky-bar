@@ -5,7 +5,7 @@ Description: Adds a customizable sticky notification bar to the top of your webs
 Version: 1.4
 Author: Hyroes.com
 Author URI: https://hyroes.com
-Text Domain: hyroes-sticky-bar
+Text Domain: high-performance-sticky-bar-main
 Domain Path: /languages
 License: GPL v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -113,13 +113,23 @@ function hyroes_sticky_bar_options_page() {
     );
     $settings = get_option('hyroes_sticky_bar_settings', $defaults);
 
-    // Save settings if form is submitted
-    if (isset($_POST['submit'])) {
-        $settings['bar_text']   = sanitize_text_field($_POST['bar_text']);
-        $settings['bar_bgcolor']= sanitize_hex_color($_POST['bar_bgcolor']);
+    // Verify nonce and save settings if form is submitted
+    if (isset($_POST['submit']) && check_admin_referer('hyroes_sticky_bar_nonce')) {
+        // Validate and sanitize bar text
+        if (isset($_POST['bar_text'])) {
+            $settings['bar_text'] = sanitize_text_field(wp_unslash($_POST['bar_text']));
+        }
+
+        // Validate and sanitize background color
+        if (isset($_POST['bar_bgcolor'])) {
+            $settings['bar_bgcolor'] = sanitize_hex_color(wp_unslash($_POST['bar_bgcolor']));
+        }
+
+        // Validate and sanitize cookie hours
+        $settings['cookie_hours'] = isset($_POST['cookie_hours']) ? absint(wp_unslash($_POST['cookie_hours'])) : 24;
+
         $settings['enable_bar'] = isset($_POST['enable_bar']) ? 1 : 0;
-        $settings['cookie_hours'] = intval($_POST['cookie_hours']);
-        update_option('hyroes_sticky_bar_settings', $settings);
+        update_option('hyroes_sticky_bar_settings', array_map('wp_kses_post', $settings));
         echo '<div class="updated"><p>Sticky Bar settings saved.</p></div>';
     }
     ?>
@@ -127,6 +137,7 @@ function hyroes_sticky_bar_options_page() {
         <h1>Lightweight High Performance Sticky Bar</h1>
         <form method="post" action="">
             <?php settings_fields('hyroes_sticky_bar_options'); ?>
+            <?php wp_nonce_field('hyroes_sticky_bar_nonce'); ?>
             <script>
                 jQuery(document).ready(function($) {
                     $('.color-picker').wpColorPicker({
