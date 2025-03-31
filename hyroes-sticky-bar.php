@@ -2,7 +2,7 @@
 /*
 Plugin Name: Hyroes Sticky Bar
 Description: Adds a customizable sticky bar that can be closed, storing user preference in cookies.
-Version: 1.0
+Version: 1.1
 Author: Alex Godlewski, Hyroes.com
 */
 
@@ -127,7 +127,7 @@ function hyroes_sticky_bar_enqueue_scripts() {
             'hyroes-sticky-bar-js',
             plugin_dir_url(__FILE__) . 'sticky-bar.js',
             array('jquery'),
-            '1.0',
+            '1.1',
             true
         );
         wp_localize_script('hyroes-sticky-bar-js', 'HyroesStickyBarData', array(
@@ -135,25 +135,55 @@ function hyroes_sticky_bar_enqueue_scripts() {
             'bgColor' => $settings['bar_bgcolor'],
             'cookieHours' => intval($settings['cookie_hours'])
         ));
+        
+        // Add CSS to ensure proper styling
+        wp_add_inline_style('wp-block-library', '
+            #hyroes-sticky-bar {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100% !important;
+                z-index: 999999 !important;
+                box-sizing: border-box !important;
+                margin: 0 !important;
+                padding: 10px !important;
+                transition: all 0.3s ease !important;
+            }
+            body.admin-bar #hyroes-sticky-bar {
+                top: 32px !important;
+            }
+            @media screen and (max-width: 782px) {
+                body.admin-bar #hyroes-sticky-bar {
+                    top: 46px !important;
+                }
+            }
+            /* Push body content down when bar is visible */
+            body.has-hyroes-sticky-bar {
+                padding-top: 40px !important;
+            }
+        ');
     }
 }
 add_action('wp_enqueue_scripts', 'hyroes_sticky_bar_enqueue_scripts');
 
-// Use JavaScript to insert the sticky bar as the first element in the header
-function hyroes_sticky_bar_insertion_script() {
+// Create the sticky bar directly in the body
+function hyroes_sticky_bar_body_open() {
     $settings = get_option('hyroes_sticky_bar_settings');
     if (!empty($settings['enable_bar'])) {
-        ?>
-        <script type="text/javascript">
-            jQuery(document).ready(function($) {
-                // Create the sticky bar element
-                var $stickyBar = $('<div id="hyroes-sticky-bar" style="display:none;"></div>');
-                
-                // Insert it as the first element inside the header
-                $('#header').prepend($stickyBar);
-            });
-        </script>
-        <?php
+        echo '<div id="hyroes-sticky-bar" style="display:none;"></div>';
+        echo '<script>document.body.classList.add("has-hyroes-sticky-bar");</script>';
     }
 }
-add_action('wp_footer', 'hyroes_sticky_bar_insertion_script', 5);
+add_action('wp_body_open', 'hyroes_sticky_bar_body_open', 5);
+
+// Fallback for themes that don't support wp_body_open
+function hyroes_sticky_bar_fallback() {
+    $settings = get_option('hyroes_sticky_bar_settings');
+    if (!empty($settings['enable_bar'])) {
+        if (!did_action('wp_body_open')) {
+            echo '<div id="hyroes-sticky-bar" style="display:none;"></div>';
+            echo '<script>document.body.classList.add("has-hyroes-sticky-bar");</script>';
+        }
+    }
+}
+add_action('wp_footer', 'hyroes_sticky_bar_fallback', 0);

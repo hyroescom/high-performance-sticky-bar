@@ -7,23 +7,25 @@
         if (!getCookie(cookieName)) {
             var $bar = $('#hyroes-sticky-bar');
             
-            // Ensure we have the element (it was added via jQuery in footer)
+            // Ensure we have the element
             if ($bar.length) {
                 // Apply style from localized script data
                 $bar.css({
-                    'width': '100%',
                     'background-color': HyroesStickyBarData.bgColor,
                     'color': '#fff',
-                    'padding': '10px',
                     'display': 'flex',
                     'align-items': 'center',
                     'justify-content': 'center',
                     'opacity': '0',
-                    'transition': 'opacity 0.3s ease, height 0.3s ease',
                     'box-sizing': 'border-box',
                     'overflow': 'hidden',
-                    'height': 'auto',
-                    'position': 'relative'
+                    'position': 'fixed',
+                    'top': $('body').hasClass('admin-bar') ? ($('#wpadminbar').height() + 'px') : '0',
+                    'left': '0',
+                    'width': '100%',
+                    'z-index': '999999',
+                    'height': '40px', // Fixed height to avoid layout shifts
+                    'margin': '0'
                 });
                 
                 // Create content first before showing for better performance
@@ -32,6 +34,7 @@
                     'width': '100%',
                     'text-align': 'center',
                     'margin': '0 auto',
+                    'padding': '0 30px', // Make space for close button
                     'word-wrap': 'break-word', // Ensure text wraps properly on mobile
                     'white-space': 'normal'
                 }).text(HyroesStickyBarData.barText);
@@ -39,19 +42,17 @@
                 var $closeButton = $('<span></span>').text('×').css({
                     'display': 'block',
                     'cursor': 'pointer',
-                    'font-size': '1.5em',
+                    'font-size': '24px',
                     'position': 'absolute',
                     'right': '15px',
                     'top': '50%', 
                     'transform': 'translateY(-50%)',
                     'line-height': '1',
-                    'padding': '0 5px'
+                    'padding': '0 5px',
+                    'font-weight': 'bold'
                 });
                 
                 $closeButton.on('click', function() {
-                    // Get the current height so we can animate to zero
-                    var currentHeight = $bar.outerHeight();
-                    
                     // First fade out
                     $bar.css({
                         'opacity': '0'
@@ -60,20 +61,11 @@
                     // Set cookie with expiration
                     setCookie(cookieName, 'true', 0, HyroesStickyBarData.cookieHours);
                     
-                    // After fade completes, collapse height
+                    // After fade completes, collapse height and remove
                     setTimeout(function() {
-                        $bar.css({
-                            'height': '0',
-                            'padding': '0',
-                            'margin': '0',
-                            'border': 'none'
-                        });
-                        
-                        // Remove completely after animation
-                        setTimeout(function() {
-                            $bar.remove();
-                        }, 300);
-                    }, 250);
+                        document.body.classList.remove('has-hyroes-sticky-bar');
+                        $bar.remove();
+                    }, 300);
                 });
                 
                 // Append elements to the bar
@@ -84,8 +76,18 @@
                     $bar.css({
                         'opacity': '1'
                     });
-                }, 10);
+                }, 100);
+                
+                // Handle window resize for admin bar height adjustments
+                $(window).on('resize', function() {
+                    if ($('body').hasClass('admin-bar') && $('#wpadminbar').length) {
+                        $bar.css('top', $('#wpadminbar').height() + 'px');
+                    }
+                });
             }
+        } else {
+            // If the bar should be hidden due to cookie, remove the body class
+            document.body.classList.remove('has-hyroes-sticky-bar');
         }
     });
     
