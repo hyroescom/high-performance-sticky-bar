@@ -1,13 +1,22 @@
 <?php
 /*
-Plugin Name: Hyroes Sticky Bar
-Description: Adds a customizable sticky bar that can be closed, storing user preference in cookies.
+Plugin Name: Lightweight High Performance Sticky Bar
+Description: Adds a customizable sticky notification bar to the top of your website that can be closed by visitors, with their preference stored in cookies.
 Version: 1.4
 Author: Alex Godlewski, Hyroes.com
+Author URI: https://hyroes.com
+Text Domain: hyroes-sticky-bar
+Domain Path: /languages
+License: GPL v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
+/**
+ * Security measure to prevent direct access to the plugin file.
+ */
 if (!defined('ABSPATH')) {
-    exit; // Exit if accessed directly
+    // Exit if accessed directly
+    exit;
 }
 
 // Register settings + store defaults once
@@ -26,7 +35,14 @@ function hyroes_sticky_bar_register_settings() {
 }
 add_action('admin_init', 'hyroes_sticky_bar_register_settings');
 
-// Add admin menu under Tools
+/**
+ * Adds the plugin settings page to the WordPress admin menu under Tools.
+ *
+ * Creates a submenu page that allows administrators to configure
+ * the sticky bar options including text, color, and visibility settings.
+ * 
+ * @return void
+ */
 function hyroes_sticky_bar_add_admin_menu() {
     add_submenu_page(
         'tools.php',
@@ -39,7 +55,15 @@ function hyroes_sticky_bar_add_admin_menu() {
 }
 add_action('admin_menu', 'hyroes_sticky_bar_add_admin_menu');
 
-// Enqueue admin scripts
+/**
+ * Enqueues necessary scripts and styles for the admin settings page.
+ *
+ * Loads the WordPress color picker for the background color selection
+ * only on the plugin's settings page to avoid unnecessary resource loading.
+ *
+ * @param string $hook The current admin page hook.
+ * @return void
+ */
 function hyroes_sticky_bar_admin_scripts($hook) {
     if ($hook === 'tools_page_hyroes-sticky-bar') {
         wp_enqueue_style('wp-color-picker');
@@ -48,6 +72,15 @@ function hyroes_sticky_bar_admin_scripts($hook) {
 }
 add_action('admin_enqueue_scripts', 'hyroes_sticky_bar_admin_scripts');
 
+/**
+ * Renders the plugin settings page HTML in the WordPress admin.
+ *
+ * Provides a form for administrators to configure:
+ * - Custom text for the sticky bar
+ * - Background color using WordPress color picker
+ * - Cookie duration (how long the bar stays hidden after being closed)
+ * - Toggle to enable/disable the sticky bar
+ */
 function hyroes_sticky_bar_options_page() {
     if (!current_user_can('manage_options')) {
         return;
@@ -73,7 +106,7 @@ function hyroes_sticky_bar_options_page() {
     }
     ?>
     <div class="wrap">
-        <h1>Hyroes Sticky Bar</h1>
+        <h1>Lightweight High Performance Sticky Bar</h1>
         <form method="post" action="">
             <?php settings_fields('hyroes_sticky_bar_options'); ?>
             <script>
@@ -111,7 +144,16 @@ function hyroes_sticky_bar_options_page() {
     <?php
 }
 
-// Enqueue front-end assets only if bar is enabled
+/**
+ * Enqueues front-end assets only when the sticky bar is enabled.
+ *
+ * This function:
+ * 1. Loads the JavaScript file for bar functionality
+ * 2. Passes necessary data to JavaScript via wp_localize_script
+ * 3. Adds inline CSS to style the sticky bar using admin settings
+ *
+ * @return void
+ */
 function hyroes_sticky_bar_enqueue_scripts() {
     $settings = get_option('hyroes_sticky_bar_settings');
     
@@ -183,7 +225,15 @@ function hyroes_sticky_bar_enqueue_scripts() {
 }
 add_action('wp_enqueue_scripts', 'hyroes_sticky_bar_enqueue_scripts');
 
-// Add the sticky bar HTML to the site
+/**
+ * Outputs the sticky bar HTML to the website footer.
+ *
+ * This function adds the sticky bar HTML only when the bar is enabled
+ * in the admin settings. The HTML includes:
+ * - The container div with proper ID for styling
+ * - The message text from settings
+ * - A close button that triggers the JavaScript hide functionality
+ */
 function hyroes_sticky_bar_add_html() {
     $settings = get_option('hyroes_sticky_bar_settings');
     
