@@ -19,7 +19,8 @@ function hyroes_sticky_bar_register_settings() {
         add_option('hyroes_sticky_bar_settings', array(
             'bar_text'   => 'Welcome to our site!',
             'bar_bgcolor'=> '#333333',
-            'enable_bar' => 0
+            'enable_bar' => 0,
+            'cookie_days' => 7
         ));
     }
 }
@@ -38,6 +39,15 @@ function hyroes_sticky_bar_add_admin_menu() {
 }
 add_action('admin_menu', 'hyroes_sticky_bar_add_admin_menu');
 
+// Enqueue admin scripts
+function hyroes_sticky_bar_admin_scripts($hook) {
+    if ($hook === 'tools_page_hyroes-sticky-bar') {
+        wp_enqueue_style('wp-color-picker');
+        wp_enqueue_script('wp-color-picker');
+    }
+}
+add_action('admin_enqueue_scripts', 'hyroes_sticky_bar_admin_scripts');
+
 function hyroes_sticky_bar_options_page() {
     if (!current_user_can('manage_options')) {
         return;
@@ -47,7 +57,8 @@ function hyroes_sticky_bar_options_page() {
     $defaults = array(
         'bar_text' => 'Welcome to our site!',
         'bar_bgcolor' => '#333333',
-        'enable_bar' => 0
+        'enable_bar' => 0,
+        'cookie_days' => 7
     );
     $settings = get_option('hyroes_sticky_bar_settings', $defaults);
 
@@ -56,6 +67,7 @@ function hyroes_sticky_bar_options_page() {
         $settings['bar_text']   = sanitize_text_field($_POST['bar_text']);
         $settings['bar_bgcolor']= sanitize_hex_color($_POST['bar_bgcolor']);
         $settings['enable_bar'] = isset($_POST['enable_bar']) ? 1 : 0;
+        $settings['cookie_days'] = intval($_POST['cookie_days']);
         update_option('hyroes_sticky_bar_settings', $settings);
         echo '<div class="updated"><p>Sticky Bar settings saved.</p></div>';
     }
@@ -64,6 +76,13 @@ function hyroes_sticky_bar_options_page() {
         <h1>Hyroes Sticky Bar</h1>
         <form method="post" action="">
             <?php settings_fields('hyroes_sticky_bar_options'); ?>
+            <script>
+                jQuery(document).ready(function($) {
+                    $('.color-picker').wpColorPicker({
+                        defaultColor: '<?php echo esc_attr($settings['bar_bgcolor']); ?>'
+                    });
+                });
+            </script>
             <table class="form-table">
                 <tr>
                     <th scope="row"><label for="bar_text">Sticky Bar Text</label></th>
@@ -71,7 +90,12 @@ function hyroes_sticky_bar_options_page() {
                 </tr>
                 <tr>
                     <th scope="row"><label for="bar_bgcolor">Background Color</label></th>
-                    <td><input type="text" name="bar_bgcolor" value="<?php echo esc_attr($settings['bar_bgcolor']); ?>" class="regular-text" /></td>
+                    <td><input type="text" name="bar_bgcolor" value="<?php echo esc_attr($settings['bar_bgcolor']); ?>" class="color-picker" /></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="cookie_days">Hide Duration (Days)</label></th>
+                    <td><input type="number" min="1" max="365" name="cookie_days" value="<?php echo esc_attr($settings['cookie_days']); ?>" class="small-text" />
+                    <span class="description">Number of days the bar stays hidden after a visitor closes it</span></td>
                 </tr>
                 <tr>
                     <th scope="row">Enable Sticky Bar</th>
@@ -92,7 +116,8 @@ function hyroes_sticky_bar_enqueue_scripts() {
     $defaults = array(
         'bar_text' => 'Welcome to our site!',
         'bar_bgcolor' => '#333333',
-        'enable_bar' => 0
+        'enable_bar' => 0,
+        'cookie_days' => 7
     );
     $settings = get_option('hyroes_sticky_bar_settings', $defaults);
 
@@ -107,7 +132,8 @@ function hyroes_sticky_bar_enqueue_scripts() {
         );
         wp_localize_script('hyroes-sticky-bar-js', 'HyroesStickyBarData', array(
             'barText' => $settings['bar_text'],
-            'bgColor' => $settings['bar_bgcolor']
+            'bgColor' => $settings['bar_bgcolor'],
+            'cookieDays' => intval($settings['cookie_days'])
         ));
     }
 }
