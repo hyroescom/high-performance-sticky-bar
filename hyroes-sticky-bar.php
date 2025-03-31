@@ -139,13 +139,21 @@ function hyroes_sticky_bar_enqueue_scripts() {
 }
 add_action('wp_enqueue_scripts', 'hyroes_sticky_bar_enqueue_scripts');
 
-// Output sticky bar container using wp_footer for maximum compatibility
-function hyroes_sticky_bar_display() {
+// Use JavaScript to insert the sticky bar as the first element in the header
+function hyroes_sticky_bar_insertion_script() {
     $settings = get_option('hyroes_sticky_bar_settings');
     if (!empty($settings['enable_bar'])) {
-        echo '<div id="hyroes-sticky-bar-wrapper" style="position:fixed; top:0; left:0; right:0; z-index:999999; pointer-events:none;">';
-        echo '<div id="hyroes-sticky-bar" style="display:none; pointer-events:auto;"></div>';
-        echo '</div>';
+        ?>
+        <script type="text/javascript">
+            jQuery(document).ready(function($) {
+                // Create the sticky bar element
+                var $stickyBar = $('<div id="hyroes-sticky-bar" style="display:none;"></div>');
+                
+                // Insert it as the first element inside the header
+                $('#header').prepend($stickyBar);
+            });
+        </script>
+        <?php
     }
 }
-add_action('wp_footer', 'hyroes_sticky_bar_display', 999);
+add_action('wp_footer', 'hyroes_sticky_bar_insertion_script', 5);

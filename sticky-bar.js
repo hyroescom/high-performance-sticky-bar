@@ -1,103 +1,93 @@
 // Use jQuery for convenience
 (function($) {
     $(document).ready(function() {
-        // Wait a moment for DOM to be fully ready
-        setTimeout(initStickyBar, 100);
-    });
-    
-    function initStickyBar() {
         var cookieName = 'HyroesStickyBarClosed';
         
         // Check if user closed the sticky bar
         if (!getCookie(cookieName)) {
-            var $bar = $('#hyroes-sticky-bar').hide();
-            var $wrapper = $('#hyroes-sticky-bar-wrapper');
+            var $bar = $('#hyroes-sticky-bar');
             
-            // Apply style from localized script data
-            $bar.css({
-                'width': '100%',
-                'background-color': HyroesStickyBarData.bgColor,
-                'color': '#fff',
-                'padding': '10px',
-                'display': 'flex',
-                'align-items': 'center',
-                'justify-content': 'center',
-                'opacity': '0',
-                'transform': 'translateY(-100%)',
-                'transition': 'opacity 0.3s ease, transform 0.3s ease, height 0.3s ease',
-                'box-sizing': 'border-box'
-            });
-            
-            // Create content first before showing for better performance
-            // Add text container
-            var $content = $('<div></div>').css({
-                'width': '100%',
-                'text-align': 'center',
-                'margin': '0 auto',
-                'word-wrap': 'break-word', // Ensure text wraps properly on mobile
-                'white-space': 'normal',
-                'max-width': '90%' // Leave room for close button
-            }).text(HyroesStickyBarData.barText);
-            
-            var $closeButton = $('<span></span>').text('×').css({
-                'display': 'block',
-                'cursor': 'pointer',
-                'font-size': '1.5em',
-                'position': 'absolute',
-                'right': '15px',
-                'top': '50%', 
-                'transform': 'translateY(-50%)',
-                'line-height': '1',
-                'padding': '0 5px'
-            });
-            
-            $closeButton.on('click', function() {
-                // Animate out
+            // Ensure we have the element (it was added via jQuery in footer)
+            if ($bar.length) {
+                // Apply style from localized script data
                 $bar.css({
+                    'width': '100%',
+                    'background-color': HyroesStickyBarData.bgColor,
+                    'color': '#fff',
+                    'padding': '10px',
+                    'display': 'flex',
+                    'align-items': 'center',
+                    'justify-content': 'center',
                     'opacity': '0',
-                    'transform': 'translateY(-100%)'
+                    'transition': 'opacity 0.3s ease, height 0.3s ease',
+                    'box-sizing': 'border-box',
+                    'overflow': 'hidden',
+                    'height': 'auto',
+                    'position': 'relative'
                 });
                 
-                // Set cookie with expiration days from settings
-                setCookie(cookieName, 'true', 0, HyroesStickyBarData.cookieHours);
+                // Create content first before showing for better performance
+                // Add text container
+                var $content = $('<div></div>').css({
+                    'width': '100%',
+                    'text-align': 'center',
+                    'margin': '0 auto',
+                    'word-wrap': 'break-word', // Ensure text wraps properly on mobile
+                    'white-space': 'normal'
+                }).text(HyroesStickyBarData.barText);
                 
-                // Remove after animation completes
-                setTimeout(function() {
-                    $wrapper.css('height', '0');
-                    setTimeout(function() {
-                        $wrapper.hide();
-                    }, 300);
-                }, 300);
-            });
-            
-            // Append elements to the bar
-            $bar.append($content).append($closeButton);
-            
-            // Show with animation after a delay for better rendering
-            setTimeout(function() {
-                $bar.show().css({
-                    'opacity': '1',
-                    'transform': 'translateY(0)'
+                var $closeButton = $('<span></span>').text('×').css({
+                    'display': 'block',
+                    'cursor': 'pointer',
+                    'font-size': '1.5em',
+                    'position': 'absolute',
+                    'right': '15px',
+                    'top': '50%', 
+                    'transform': 'translateY(-50%)',
+                    'line-height': '1',
+                    'padding': '0 5px'
                 });
                 
-                // Measure and set the actual height after content is visible
-                setTimeout(function() {
-                    var barHeight = $bar.outerHeight();
-                    $wrapper.css('height', barHeight + 'px');
+                $closeButton.on('click', function() {
+                    // Get the current height so we can animate to zero
+                    var currentHeight = $bar.outerHeight();
                     
-                    // Add padding to the top of the body to prevent content from being hidden
-                    $('body').css('padding-top', barHeight + 'px');
-                    
-                    // Handle window resize for responsive layouts
-                    $(window).on('resize', function() {
-                        var newHeight = $bar.outerHeight();
-                        $wrapper.css('height', newHeight + 'px');
-                        $('body').css('padding-top', newHeight + 'px');
+                    // First fade out
+                    $bar.css({
+                        'opacity': '0'
                     });
-                }, 50);
-            }, 10);
+                    
+                    // Set cookie with expiration
+                    setCookie(cookieName, 'true', 0, HyroesStickyBarData.cookieHours);
+                    
+                    // After fade completes, collapse height
+                    setTimeout(function() {
+                        $bar.css({
+                            'height': '0',
+                            'padding': '0',
+                            'margin': '0',
+                            'border': 'none'
+                        });
+                        
+                        // Remove completely after animation
+                        setTimeout(function() {
+                            $bar.remove();
+                        }, 300);
+                    }, 250);
+                });
+                
+                // Append elements to the bar
+                $bar.append($content).append($closeButton);
+                
+                // Show with animation after a delay for better rendering
+                setTimeout(function() {
+                    $bar.css({
+                        'opacity': '1'
+                    });
+                }, 10);
+            }
         }
-    }
+    });
     
     // Helper function to set a cookie with expiration
     function setCookie(name, value, days, hours) {
