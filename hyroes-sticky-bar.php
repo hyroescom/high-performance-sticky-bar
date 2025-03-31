@@ -130,11 +130,11 @@ function hyroes_sticky_bar_options_page() {
 
         $settings['enable_bar'] = isset($_POST['enable_bar']) ? 1 : 0;
         update_option('hyroes_sticky_bar_settings', array_map('wp_kses_post', $settings));
-        echo '<div class="updated"><p>Sticky Bar settings saved.</p></div>';
+        echo '<div class="updated"><p>' . esc_html__('Sticky Bar settings saved.', 'high-performance-sticky-bar-main') . '</p></div>';
     }
     ?>
     <div class="wrap">
-        <h1>Lightweight High Performance Sticky Bar</h1>
+        <h1><?php esc_html_e('Lightweight High Performance Sticky Bar', 'high-performance-sticky-bar-main'); ?></h1>
         <form method="post" action="">
             <?php settings_fields('hyroes_sticky_bar_options'); ?>
             <?php wp_nonce_field('hyroes_sticky_bar_nonce'); ?>
@@ -147,23 +147,23 @@ function hyroes_sticky_bar_options_page() {
             </script>
             <table class="form-table">
                 <tr>
-                    <th scope="row"><label for="bar_text">Sticky Bar Text</label></th>
+                    <th scope="row"><label for="bar_text"><?php esc_html_e('Sticky Bar Text', 'high-performance-sticky-bar-main'); ?></label></th>
                     <td><input type="text" name="bar_text" value="<?php echo esc_attr($settings['bar_text']); ?>" class="regular-text" /></td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="bar_bgcolor">Background Color</label></th>
+                    <th scope="row"><label for="bar_bgcolor"><?php esc_html_e('Background Color', 'high-performance-sticky-bar-main'); ?></label></th>
                     <td><input type="text" name="bar_bgcolor" value="<?php echo esc_attr($settings['bar_bgcolor']); ?>" class="color-picker" /></td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="cookie_hours">Hide Duration (Hours)</label></th>
+                    <th scope="row"><label for="cookie_hours"><?php esc_html_e('Hide Duration (Hours)', 'high-performance-sticky-bar-main'); ?></label></th>
                     <td><input type="number" min="1" max="8760" name="cookie_hours" value="<?php echo esc_attr($settings['cookie_hours']); ?>" class="small-text" />
-                    <span class="description">Number of hours the bar stays hidden after a visitor closes it</span></td>
+                    <span class="description"><?php esc_html_e('Number of hours the bar stays hidden after a visitor closes it', 'high-performance-sticky-bar-main'); ?></span></td>
                 </tr>
                 <tr>
-                    <th scope="row">Enable Sticky Bar</th>
+                    <th scope="row"><?php esc_html_e('Enable Sticky Bar', 'high-performance-sticky-bar-main'); ?></th>
                     <td>
                         <input type="checkbox" name="enable_bar" value="1" <?php checked($settings['enable_bar'], 1); ?> />
-                        <span class="description">Check to activate sticky bar on the site</span>
+                        <span class="description"><?php esc_html_e('Check to activate sticky bar on the site', 'high-performance-sticky-bar-main'); ?></span>
                     </td>
                 </tr>
             </table>
