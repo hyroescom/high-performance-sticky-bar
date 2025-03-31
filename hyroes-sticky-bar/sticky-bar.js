@@ -14,26 +14,31 @@
                 'background-color': HyroesStickyBarData.bgColor,
                 'color': '#fff',
                 'padding': '10px',
-                'text-align': 'center',
-                'z-index': '9999',
-                'display': 'block'
+                'display': 'flex',
+                'align-items': 'center',
+                'justify-content': 'center',
+                'z-index': '9999'
             });
             
-            // Add text and close button
-            var closeButton = $('<span></span>').text('×').css({
+            // Add text and close button container
+            var $content = $('<div></div>').css({
+                'flex': '1',
+                'text-align': 'center'
+            }).text(HyroesStickyBarData.barText);
+            
+            var $closeButton = $('<span></span>').text('×').css({
                 'cursor': 'pointer',
-                'float': 'right',
                 'font-size': '1.25em',
-                'margin-right': '10px'
+                'margin-left': '10px'
             });
             
-            closeButton.on('click', function() {
+            $closeButton.on('click', function() {
                 $bar.hide();
                 // Set cookie
                 document.cookie = 'HyroesStickyBarClosed=true; path=/';
             });
             
-            $bar.html(HyroesStickyBarData.barText).append(closeButton);
+            $bar.append($content).append($closeButton);
         }
     });
 })(jQuery);
