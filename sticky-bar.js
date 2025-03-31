@@ -19,7 +19,7 @@
                 'display': 'flex',
                 'align-items': 'center',
                 'justify-content': 'center',
-                'z-index': '999999', // Extremely high z-index to ensure it's above sticky headers
+                'z-index': '9999',
                 'opacity': '0',
                 'transform': 'translateY(-100%)',
                 'transition': 'opacity 0.3s ease, transform 0.3s ease',
@@ -27,14 +27,8 @@
             });
             
             // Add space for the sticky bar to the body to prevent content from being hidden
-            // Calculate the bar height once it's visible
-            var barHeight = 0;
-            setTimeout(function() {
-                barHeight = $bar.outerHeight() || 40; // Default to 40px if calculation fails
-                $('body').css({
-                    'padding-top': barHeight + 'px' // Dynamic padding based on actual bar height
-                });
-                $('.site-header, header, #header, .header, #masthead').css('top', barHeight + 'px');
+            $('body').css({
+                'padding-top': '40px' // Ensure content below isn't covered
             });
             
             // Create content first before showing for better performance
