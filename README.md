@@ -3,9 +3,9 @@ Contributors: alexgodlewski
 World Class Websites: https://hyroes.com
 Tags: notification bar, sticky bar, countdown timer, announcement bar, promotion bar
 Requires at least: 5.0
-Tested up to: 6.7
-Requires PHP: 7.4
-Stable tag: 1.5.1
+Tested up to: 6.8
+Requires PHP: 7.0
+Stable tag: 1.5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,7 +85,7 @@ The sticky bar appears at the top of your website as the first element in the he
 
 = Can I add HTML to the sticky bar text? =
 
-No, for security reasons the plugin sanitizes all input to prevent XSS attacks. Only plain text is supported.
+Yes, the plugin now supports limited HTML in the sticky bar text. You can enable this feature in the settings and use tags like links, line breaks, emphasis, and spans. All HTML is sanitized to prevent security issues.
 
 = Will the sticky bar appear on mobile devices? =
 
@@ -128,7 +128,7 @@ Yes, the sticky bar is fully responsive and will display properly on all devices
 
 ### Can I add HTML to the sticky bar text?
 
-No, for security reasons the plugin sanitizes all input to prevent XSS attacks. Only plain text is supported.
+Yes, the plugin now supports limited HTML in the sticky bar text. You can enable this feature in the settings and use tags like links, line breaks, emphasis, and spans. All HTML is sanitized to prevent security issues.
 
 ### Will the sticky bar appear on mobile devices?
 
@@ -160,6 +160,15 @@ Yes, you can customize the text for each time unit label (Days, Hours, Minutes, 
 *Note: Screenshots are stored in the /assets directory in the WordPress SVN repository, not in the plugin itself.*
 
 ## Changelog
+
+### 1.5.2
+* Added support for HTML in sticky bar text
+* Added customizable button with position, color, and link options
+* Improved performance with minified CSS and deferred JavaScript
+* Enhanced security with proper escaping and validation
+* Added compatibility checks for WordPress version
+* Fixed text domain consistency issues
+* Added proper uninstall cleanup
 
 ### 1.5.1
 * Fixed settings saving issue
