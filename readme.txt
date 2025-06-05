@@ -161,6 +161,13 @@ Yes, you can customize the text for each time unit label (Days, Hours, Minutes, 
 
 ## Changelog
 
+### 1.5.3
+* Fixed WordPress.org compliance issues
+* Updated text domain to match plugin slug (51 instances)
+* Renamed main plugin file to match slug convention
+* Removed hidden .DS_Store file
+* Improved internationalization support
+
 ### 1.5.2
 * Added support for HTML in sticky bar text
 * Added customizable button with position, color, and link options
