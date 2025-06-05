@@ -46,8 +46,8 @@ function hyroes_sticky_bar_check_wp_version() {
  * Display admin notice for WordPress version compatibility
  */
 function hyroes_sticky_bar_wp_version_notice() {
-    // translators: %s: WordPress version number
     $message = sprintf(
+        // translators: %s: WordPress version number
         esc_html__('Lightweight High Performance Sticky Bar requires WordPress version 5.0 or higher. You are running version %s. Please upgrade WordPress to use this plugin.', 'lightweight-high-performance-sticky-bar'),
         esc_html($GLOBALS['wp_version'])
     );
