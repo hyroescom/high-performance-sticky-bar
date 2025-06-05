@@ -2,10 +2,10 @@
 /*
 Plugin Name: Lightweight High Performance Sticky Bar
 Description: Adds a customizable sticky notification bar to the top of your website that can be closed by visitors, with their preference stored in cookies. Supports HTML content, custom buttons, and countdown timers.
-Version: 1.5.2
+Version: 1.5.3
 Author: Alex Godlewski, Hyroes.com
 Author URI: https://hyroes.com
-Text Domain: lightweight-sticky-bar
+Text Domain: lightweight-high-performance-sticky-bar
 License: GPL v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 5.0
@@ -24,7 +24,7 @@ if (!defined('ABSPATH')) {
 /**
  * Define plugin constants
  */
-define('HYROES_STICKY_BAR_VERSION', '1.5.2');
+define('HYROES_STICKY_BAR_VERSION', '1.5.3');
 define('HYROES_STICKY_BAR_PATH', plugin_dir_path(__FILE__));
 define('HYROES_STICKY_BAR_URL', plugin_dir_url(__FILE__));
 
@@ -48,7 +48,7 @@ function hyroes_sticky_bar_check_wp_version() {
 function hyroes_sticky_bar_wp_version_notice() {
     // translators: %s: WordPress version number
     $message = sprintf(
-        esc_html__('Lightweight High Performance Sticky Bar requires WordPress version 5.0 or higher. You are running version %s. Please upgrade WordPress to use this plugin.', 'lightweight-sticky-bar'),
+        esc_html__('Lightweight High Performance Sticky Bar requires WordPress version 5.0 or higher. You are running version %s. Please upgrade WordPress to use this plugin.', 'lightweight-high-performance-sticky-bar'),
         esc_html($GLOBALS['wp_version'])
     );
     echo '<div class="error"><p>' . esc_html($message) . '</p></div>';
@@ -348,7 +348,7 @@ function hyroes_sticky_bar_options_page() {
     // Begin settings form HTML output
     ?>
     <div class="wrap">
-        <h1><?php echo esc_html__('Lightweight High Performance Sticky Bar', 'lightweight-sticky-bar'); ?></h1>
+        <h1><?php echo esc_html__('Lightweight High Performance Sticky Bar', 'lightweight-high-performance-sticky-bar'); ?></h1>
         <?php settings_errors(); ?>
         <form method="post" action="options.php">
             <?php
@@ -358,169 +358,169 @@ function hyroes_sticky_bar_options_page() {
             <table class="form-table">
                 <!-- Enable Bar Toggle (Main Control) -->
                 <tr>
-                    <th scope="row"><?php echo esc_html__('Enable Sticky Bar', 'lightweight-sticky-bar'); ?></th>
+                    <th scope="row"><?php echo esc_html__('Enable Sticky Bar', 'lightweight-high-performance-sticky-bar'); ?></th>
                     <td>
                         <input type="checkbox" name="hyroes_sticky_bar_settings[enable_bar]" id="enable_bar" value="1" <?php checked($settings['enable_bar'], 1); ?> />
-                        <label for="enable_bar"><span class="description"><?php echo esc_html__('Check to activate sticky bar on the site', 'lightweight-sticky-bar'); ?></span></label>
+                        <label for="enable_bar"><span class="description"><?php echo esc_html__('Check to activate sticky bar on the site', 'lightweight-high-performance-sticky-bar'); ?></span></label>
                     </td>
                 </tr>
 
                 <!-- General Settings -->
                 <tr class="heading">
                     <th colspan="2">
-                        <h2><?php echo esc_html__('General Settings', 'lightweight-sticky-bar'); ?></h2>
+                        <h2><?php echo esc_html__('General Settings', 'lightweight-high-performance-sticky-bar'); ?></h2>
                     </th>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="bar_text"><?php echo esc_html__('Sticky Bar Text', 'lightweight-sticky-bar'); ?></label></th>
+                    <th scope="row"><label for="bar_text"><?php echo esc_html__('Sticky Bar Text', 'lightweight-high-performance-sticky-bar'); ?></label></th>
                     <td>
                         <textarea id="bar_text" name="hyroes_sticky_bar_settings[bar_text]" class="large-text" rows="3"><?php echo esc_textarea($settings['bar_text']); ?></textarea>
-                        <p class="description"><?php echo esc_html__('Text to display in the sticky bar', 'lightweight-sticky-bar'); ?></p>
+                        <p class="description"><?php echo esc_html__('Text to display in the sticky bar', 'lightweight-high-performance-sticky-bar'); ?></p>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row"><?php echo esc_html__('Allow HTML', 'lightweight-sticky-bar'); ?></th>
+                    <th scope="row"><?php echo esc_html__('Allow HTML', 'lightweight-high-performance-sticky-bar'); ?></th>
                     <td>
                         <input type="checkbox" id="allow_html" name="hyroes_sticky_bar_settings[allow_html]" value="1" <?php checked($settings['allow_html'], 1); ?> />
-                        <label for="allow_html"><span class="description"><?php echo esc_html__('Allow limited HTML tags in the bar text (a, br, em, strong, span)', 'lightweight-sticky-bar'); ?></span></label>
+                        <label for="allow_html"><span class="description"><?php echo esc_html__('Allow limited HTML tags in the bar text (a, br, em, strong, span)', 'lightweight-high-performance-sticky-bar'); ?></span></label>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="bar_bgcolor"><?php echo esc_html__('Background Color', 'lightweight-sticky-bar'); ?></label></th>
+                    <th scope="row"><label for="bar_bgcolor"><?php echo esc_html__('Background Color', 'lightweight-high-performance-sticky-bar'); ?></label></th>
                     <td><input type="text" id="bar_bgcolor" name="hyroes_sticky_bar_settings[bar_bgcolor]" value="<?php echo esc_attr($settings['bar_bgcolor']); ?>" class="color-picker" /></td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="cookie_hours"><?php echo esc_html__('Hide Duration (Hours)', 'lightweight-sticky-bar'); ?></label></th>
+                    <th scope="row"><label for="cookie_hours"><?php echo esc_html__('Hide Duration (Hours)', 'lightweight-high-performance-sticky-bar'); ?></label></th>
                     <td><input type="number" id="cookie_hours" min="1" max="8760" name="hyroes_sticky_bar_settings[cookie_hours]" value="<?php echo esc_attr($settings['cookie_hours']); ?>" class="small-text" />
-                    <span class="description"><?php echo esc_html__('Number of hours the bar stays hidden after a visitor closes it', 'lightweight-sticky-bar'); ?></span></td>
+                    <span class="description"><?php echo esc_html__('Number of hours the bar stays hidden after a visitor closes it', 'lightweight-high-performance-sticky-bar'); ?></span></td>
                 </tr>
 
                 <!-- Button Settings -->
                 <tr class="heading">
                     <th colspan="2">
-                        <h2><?php echo esc_html__('Button Settings', 'lightweight-sticky-bar'); ?></h2>
+                        <h2><?php echo esc_html__('Button Settings', 'lightweight-high-performance-sticky-bar'); ?></h2>
                     </th>
                 </tr>
                 <tr>
-                    <th scope="row"><?php echo esc_html__('Enable Button', 'lightweight-sticky-bar'); ?></th>
+                    <th scope="row"><?php echo esc_html__('Enable Button', 'lightweight-high-performance-sticky-bar'); ?></th>
                     <td>
                         <input type="checkbox" id="button_enabled" name="hyroes_sticky_bar_settings[button_enabled]" value="1" <?php checked($settings['button_enabled'], 1); ?> />
-                        <label for="button_enabled"><span class="description"><?php echo esc_html__('Check to display a button in the sticky bar', 'lightweight-sticky-bar'); ?></span></label>
+                        <label for="button_enabled"><span class="description"><?php echo esc_html__('Check to display a button in the sticky bar', 'lightweight-high-performance-sticky-bar'); ?></span></label>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="button_text"><?php echo esc_html__('Button Text', 'lightweight-sticky-bar'); ?></label></th>
+                    <th scope="row"><label for="button_text"><?php echo esc_html__('Button Text', 'lightweight-high-performance-sticky-bar'); ?></label></th>
                     <td><input type="text" id="button_text" name="hyroes_sticky_bar_settings[button_text]" value="<?php echo esc_attr($settings['button_text']); ?>" class="regular-text" /></td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="button_url"><?php echo esc_html__('Button URL', 'lightweight-sticky-bar'); ?></label></th>
+                    <th scope="row"><label for="button_url"><?php echo esc_html__('Button URL', 'lightweight-high-performance-sticky-bar'); ?></label></th>
                     <td>
                         <input type="url" id="button_url" name="hyroes_sticky_bar_settings[button_url]" value="<?php echo esc_url($settings['button_url']); ?>" class="regular-text" />
-                        <p class="description"><?php echo esc_html__('The URL where the button will link to', 'lightweight-sticky-bar'); ?></p>
+                        <p class="description"><?php echo esc_html__('The URL where the button will link to', 'lightweight-high-performance-sticky-bar'); ?></p>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row"><?php echo esc_html__('Button Position', 'lightweight-sticky-bar'); ?></th>
+                    <th scope="row"><?php echo esc_html__('Button Position', 'lightweight-high-performance-sticky-bar'); ?></th>
                     <td>
-                        <label><input type="radio" name="hyroes_sticky_bar_settings[button_position]" value="left" <?php checked($settings['button_position'], 'left'); ?>> <?php echo esc_html__('Left of Text', 'lightweight-sticky-bar'); ?></label><br>
-                        <label><input type="radio" name="hyroes_sticky_bar_settings[button_position]" value="right" <?php checked($settings['button_position'], 'right'); ?>> <?php echo esc_html__('Right of Text', 'lightweight-sticky-bar'); ?></label><br>
-                        <label><input type="radio" name="hyroes_sticky_bar_settings[button_position]" value="below" <?php checked($settings['button_position'], 'below'); ?>> <?php echo esc_html__('Below Text', 'lightweight-sticky-bar'); ?></label>
+                        <label><input type="radio" name="hyroes_sticky_bar_settings[button_position]" value="left" <?php checked($settings['button_position'], 'left'); ?>> <?php echo esc_html__('Left of Text', 'lightweight-high-performance-sticky-bar'); ?></label><br>
+                        <label><input type="radio" name="hyroes_sticky_bar_settings[button_position]" value="right" <?php checked($settings['button_position'], 'right'); ?>> <?php echo esc_html__('Right of Text', 'lightweight-high-performance-sticky-bar'); ?></label><br>
+                        <label><input type="radio" name="hyroes_sticky_bar_settings[button_position]" value="below" <?php checked($settings['button_position'], 'below'); ?>> <?php echo esc_html__('Below Text', 'lightweight-high-performance-sticky-bar'); ?></label>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="button_color"><?php echo esc_html__('Button Color', 'lightweight-sticky-bar'); ?></label></th>
+                    <th scope="row"><label for="button_color"><?php echo esc_html__('Button Color', 'lightweight-high-performance-sticky-bar'); ?></label></th>
                     <td><input type="text" id="button_color" name="hyroes_sticky_bar_settings[button_color]" value="<?php echo esc_attr($settings['button_color']); ?>" class="color-picker" /></td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="button_text_color"><?php echo esc_html__('Button Text Color', 'lightweight-sticky-bar'); ?></label></th>
+                    <th scope="row"><label for="button_text_color"><?php echo esc_html__('Button Text Color', 'lightweight-high-performance-sticky-bar'); ?></label></th>
                     <td><input type="text" id="button_text_color" name="hyroes_sticky_bar_settings[button_text_color]" value="<?php echo esc_attr($settings['button_text_color']); ?>" class="color-picker" /></td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="button_border_radius"><?php echo esc_html__('Button Border Radius', 'lightweight-sticky-bar'); ?></label></th>
+                    <th scope="row"><label for="button_border_radius"><?php echo esc_html__('Button Border Radius', 'lightweight-high-performance-sticky-bar'); ?></label></th>
                     <td>
                         <input type="number" id="button_border_radius" min="0" max="50" name="hyroes_sticky_bar_settings[button_border_radius]" value="<?php echo esc_attr($settings['button_border_radius']); ?>" class="small-text" />
-                        <span class="description"><?php echo esc_html__('Border radius in pixels (0 for square corners)', 'lightweight-sticky-bar'); ?></span>
+                        <span class="description"><?php echo esc_html__('Border radius in pixels (0 for square corners)', 'lightweight-high-performance-sticky-bar'); ?></span>
                     </td>
                 </tr>
 
                 <!-- Countdown Settings -->
                 <tr class="heading">
                     <th colspan="2">
-                        <h2><?php echo esc_html__('Countdown Settings', 'lightweight-sticky-bar'); ?></h2>
+                        <h2><?php echo esc_html__('Countdown Settings', 'lightweight-high-performance-sticky-bar'); ?></h2>
                     </th>
                 </tr>
                 <tr>
-                    <th scope="row"><?php echo esc_html__('Enable Countdown', 'lightweight-sticky-bar'); ?></th>
+                    <th scope="row"><?php echo esc_html__('Enable Countdown', 'lightweight-high-performance-sticky-bar'); ?></th>
                     <td>
                         <input type="checkbox" id="countdown_enabled" name="hyroes_sticky_bar_settings[countdown_enabled]" value="1" <?php checked($settings['countdown_enabled'], 1); ?> />
-                        <label for="countdown_enabled"><span class="description"><?php echo esc_html__('Check to enable countdown feature', 'lightweight-sticky-bar'); ?></span></label>
+                        <label for="countdown_enabled"><span class="description"><?php echo esc_html__('Check to enable countdown feature', 'lightweight-high-performance-sticky-bar'); ?></span></label>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="countdown_target_date"><?php echo esc_html__('Target Date and Time', 'lightweight-sticky-bar'); ?></label></th>
+                    <th scope="row"><label for="countdown_target_date"><?php echo esc_html__('Target Date and Time', 'lightweight-high-performance-sticky-bar'); ?></label></th>
                     <td>
                         <input type="datetime-local" id="countdown_target_date" name="hyroes_sticky_bar_settings[countdown_target_date]"
                                value="<?php echo esc_attr($settings['countdown_target_date']); ?>"
                                class="regular-text" />
-                        <p class="description"><?php echo esc_html__('Select the target date and time for the countdown', 'lightweight-sticky-bar'); ?></p>
+                        <p class="description"><?php echo esc_html__('Select the target date and time for the countdown', 'lightweight-high-performance-sticky-bar'); ?></p>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="countdown_action"><?php echo esc_html__('After Countdown Ends', 'lightweight-sticky-bar'); ?></label></th>
+                    <th scope="row"><label for="countdown_action"><?php echo esc_html__('After Countdown Ends', 'lightweight-high-performance-sticky-bar'); ?></label></th>
                     <td>
                         <select id="countdown_action" name="hyroes_sticky_bar_settings[countdown_action]">
-                            <option value="zeros" <?php selected($settings['countdown_action'], 'zeros'); ?>><?php echo esc_html__('Show Zeros', 'lightweight-sticky-bar'); ?></option>
-                            <option value="remove_countdown" <?php selected($settings['countdown_action'], 'remove_countdown'); ?>><?php echo esc_html__('Remove Countdown', 'lightweight-sticky-bar'); ?></option>
-                            <option value="remove" <?php selected($settings['countdown_action'], 'remove'); ?>><?php echo esc_html__('Remove Bar', 'lightweight-sticky-bar'); ?></option>
+                            <option value="zeros" <?php selected($settings['countdown_action'], 'zeros'); ?>><?php echo esc_html__('Show Zeros', 'lightweight-high-performance-sticky-bar'); ?></option>
+                            <option value="remove_countdown" <?php selected($settings['countdown_action'], 'remove_countdown'); ?>><?php echo esc_html__('Remove Countdown', 'lightweight-high-performance-sticky-bar'); ?></option>
+                            <option value="remove" <?php selected($settings['countdown_action'], 'remove'); ?>><?php echo esc_html__('Remove Bar', 'lightweight-high-performance-sticky-bar'); ?></option>
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row"><?php echo esc_html__('Countdown Position', 'lightweight-sticky-bar'); ?></th>
+                    <th scope="row"><?php echo esc_html__('Countdown Position', 'lightweight-high-performance-sticky-bar'); ?></th>
                     <td>
-                        <label><input type="radio" name="hyroes_sticky_bar_settings[countdown_position]" value="left" <?php checked($settings['countdown_position'], 'left'); ?>> <?php echo esc_html__('Left of Text', 'lightweight-sticky-bar'); ?></label><br>
-                        <label><input type="radio" name="hyroes_sticky_bar_settings[countdown_position]" value="right" <?php checked($settings['countdown_position'], 'right'); ?>> <?php echo esc_html__('Right of Text', 'lightweight-sticky-bar'); ?></label><br>
-                        <label><input type="radio" name="hyroes_sticky_bar_settings[countdown_position]" value="below" <?php checked($settings['countdown_position'], 'below'); ?>> <?php echo esc_html__('Below Text', 'lightweight-sticky-bar'); ?></label>
+                        <label><input type="radio" name="hyroes_sticky_bar_settings[countdown_position]" value="left" <?php checked($settings['countdown_position'], 'left'); ?>> <?php echo esc_html__('Left of Text', 'lightweight-high-performance-sticky-bar'); ?></label><br>
+                        <label><input type="radio" name="hyroes_sticky_bar_settings[countdown_position]" value="right" <?php checked($settings['countdown_position'], 'right'); ?>> <?php echo esc_html__('Right of Text', 'lightweight-high-performance-sticky-bar'); ?></label><br>
+                        <label><input type="radio" name="hyroes_sticky_bar_settings[countdown_position]" value="below" <?php checked($settings['countdown_position'], 'below'); ?>> <?php echo esc_html__('Below Text', 'lightweight-high-performance-sticky-bar'); ?></label>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="countdown_bg_color"><?php echo esc_html__('Numbers Background Color', 'lightweight-sticky-bar'); ?></label></th>
+                    <th scope="row"><label for="countdown_bg_color"><?php echo esc_html__('Numbers Background Color', 'lightweight-high-performance-sticky-bar'); ?></label></th>
                     <td><input type="text" id="countdown_bg_color" name="hyroes_sticky_bar_settings[countdown_bg_color]" value="<?php echo esc_attr($settings['countdown_bg_color']); ?>" class="color-picker" /></td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="countdown_font_color"><?php echo esc_html__('Numbers Font Color', 'lightweight-sticky-bar'); ?></label></th>
+                    <th scope="row"><label for="countdown_font_color"><?php echo esc_html__('Numbers Font Color', 'lightweight-high-performance-sticky-bar'); ?></label></th>
                     <td><input type="text" id="countdown_font_color" name="hyroes_sticky_bar_settings[countdown_font_color]" value="<?php echo esc_attr($settings['countdown_font_color']); ?>" class="color-picker" /></td>
                 </tr>
                 <tr>
-                    <th scope="row"><?php echo esc_html__('Show Labels', 'lightweight-sticky-bar'); ?></th>
+                    <th scope="row"><?php echo esc_html__('Show Labels', 'lightweight-high-performance-sticky-bar'); ?></th>
                     <td>
                         <input type="checkbox" id="countdown_show_labels" name="hyroes_sticky_bar_settings[countdown_show_labels]" value="1" <?php checked($settings['countdown_show_labels'], 1); ?> />
-                        <label for="countdown_show_labels"><span class="description"><?php echo esc_html__('Display labels for time units', 'lightweight-sticky-bar'); ?></span></label>
+                        <label for="countdown_show_labels"><span class="description"><?php echo esc_html__('Display labels for time units', 'lightweight-high-performance-sticky-bar'); ?></span></label>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="countdown_labels_position"><?php echo esc_html__('Labels Position', 'lightweight-sticky-bar'); ?></label></th>
+                    <th scope="row"><label for="countdown_labels_position"><?php echo esc_html__('Labels Position', 'lightweight-high-performance-sticky-bar'); ?></label></th>
                     <td>
                         <select id="countdown_labels_position" name="hyroes_sticky_bar_settings[countdown_labels_position]">
-                            <option value="top" <?php selected($settings['countdown_labels_position'], 'top'); ?>><?php echo esc_html__('Above Numbers', 'lightweight-sticky-bar'); ?></option>
-                            <option value="bottom" <?php selected($settings['countdown_labels_position'], 'bottom'); ?>><?php echo esc_html__('Below Numbers', 'lightweight-sticky-bar'); ?></option>
+                            <option value="top" <?php selected($settings['countdown_labels_position'], 'top'); ?>><?php echo esc_html__('Above Numbers', 'lightweight-high-performance-sticky-bar'); ?></option>
+                            <option value="bottom" <?php selected($settings['countdown_labels_position'], 'bottom'); ?>><?php echo esc_html__('Below Numbers', 'lightweight-high-performance-sticky-bar'); ?></option>
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row"><?php echo esc_html__('Custom Labels', 'lightweight-sticky-bar'); ?></th>
+                    <th scope="row"><?php echo esc_html__('Custom Labels', 'lightweight-high-performance-sticky-bar'); ?></th>
                     <td>
                         <p>
-                            <label><?php echo esc_html__('Days', 'lightweight-sticky-bar'); ?>: <input type="text" name="hyroes_sticky_bar_settings[countdown_label_days]" value="<?php echo esc_attr($settings['countdown_label_days']); ?>" class="regular-text" /></label>
+                            <label><?php echo esc_html__('Days', 'lightweight-high-performance-sticky-bar'); ?>: <input type="text" name="hyroes_sticky_bar_settings[countdown_label_days]" value="<?php echo esc_attr($settings['countdown_label_days']); ?>" class="regular-text" /></label>
                         </p>
                         <p>
-                            <label><?php echo esc_html__('Hours', 'lightweight-sticky-bar'); ?>: <input type="text" name="hyroes_sticky_bar_settings[countdown_label_hours]" value="<?php echo esc_attr($settings['countdown_label_hours']); ?>" class="regular-text" /></label>
+                            <label><?php echo esc_html__('Hours', 'lightweight-high-performance-sticky-bar'); ?>: <input type="text" name="hyroes_sticky_bar_settings[countdown_label_hours]" value="<?php echo esc_attr($settings['countdown_label_hours']); ?>" class="regular-text" /></label>
                         </p>
                         <p>
-                            <label><?php echo esc_html__('Minutes', 'lightweight-sticky-bar'); ?>: <input type="text" name="hyroes_sticky_bar_settings[countdown_label_minutes]" value="<?php echo esc_attr($settings['countdown_label_minutes']); ?>" class="regular-text" /></label>
+                            <label><?php echo esc_html__('Minutes', 'lightweight-high-performance-sticky-bar'); ?>: <input type="text" name="hyroes_sticky_bar_settings[countdown_label_minutes]" value="<?php echo esc_attr($settings['countdown_label_minutes']); ?>" class="regular-text" /></label>
                         </p>
                         <p>
-                            <label><?php echo esc_html__('Seconds', 'lightweight-sticky-bar'); ?>: <input type="text" name="hyroes_sticky_bar_settings[countdown_label_seconds]" value="<?php echo esc_attr($settings['countdown_label_seconds']); ?>" class="regular-text" /></label>
+                            <label><?php echo esc_html__('Seconds', 'lightweight-high-performance-sticky-bar'); ?>: <input type="text" name="hyroes_sticky_bar_settings[countdown_label_seconds]" value="<?php echo esc_attr($settings['countdown_label_seconds']); ?>" class="regular-text" /></label>
                         </p>
                     </td>
                 </tr>

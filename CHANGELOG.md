@@ -2,6 +2,17 @@
 
 All notable changes to the Lightweight High Performance Sticky Bar plugin will be documented in this file.
 
+## [1.5.3] - 2025-01-06
+
+### Fixed
+- Updated text domain to match plugin slug for WordPress.org compliance
+- Removed hidden .DS_Store file
+- Renamed main plugin file to match plugin slug convention
+- Fixed all internationalization text domain issues (51 instances updated)
+
+### Changed
+- Main plugin file renamed from hyroes-sticky-bar.php to lightweight-high-performance-sticky-bar.php
+
 ## [1.5] - 2023-06-30
 
 ### Added
